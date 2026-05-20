@@ -3,7 +3,7 @@
 cmake_minimum_required(VERSION 3.13)
 
 set(CMAKE_C_STANDARD 11)
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 # Initialise pico_sdk from installed location
@@ -36,7 +36,6 @@ pico_sdk_init()
 # Add executable. Default name is the project name, version 0.1
 
 add_executable(lumiled lumiled.cpp)
-pico_generate_pio_header(lumiled ${CMAKE_CURRENT_LIST_DIR}/apa102.pio)
 target_compile_features(lumiled PRIVATE cxx_std_23)
 pico_set_program_name(lumiled "lumiled")
 pico_set_program_version(lumiled "0.1")
@@ -46,14 +45,8 @@ pico_enable_stdio_uart(lumiled 0)
 pico_enable_stdio_usb(lumiled 1)
 
 # Add the standard library to the build
-target_link_libraries(lumiled
-    pico_stdlib
-    hardware_spi
-)
-
+target_link_libraries(lumiled PRIVATE pico_stdlib hardware_spi)
 # Add the standard include files to the build
-target_include_directories(lumiled PRIVATE
-        ${CMAKE_CURRENT_LIST_DIR}
-)
+target_include_directories(lumiled PRIVATE ${CMAKE_CURRENT_LIST_DIR})
 
 pico_add_extra_outputs(lumiled)
