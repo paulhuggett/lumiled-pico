@@ -17,7 +17,8 @@ struct color {
 };
 
 template <unsigned NumLeds>
-struct driver {
+class driver {
+public:
   static constexpr unsigned num_leds = NumLeds;
 
   explicit driver(spi_inst_t *spi) noexcept : spi_{spi}{
